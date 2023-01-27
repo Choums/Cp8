@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:14:21 by chaidel           #+#    #+#             */
-/*   Updated: 2023/01/27 22:33:07 by root             ###   ########.fr       */
+/*   Updated: 2023/01/27 23:06:06 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class	Span {
 			/*	Constructors/Destrtructor */
 		Span(unsigned int N);
 		Span(Span const& cpy);
-		virtual ~Span() {};
+		virtual ~Span();
 
 			/*	Methods */
 		void	addNumber(int num);
@@ -33,9 +33,13 @@ class	Span {
 			/*	Assignment Operator Overload */
 		Span&	operator=(Span const& obj);
 
+			/*	Accessors */
+		int		getNum(unsigned int index) const;
+		size_t	getSize() const;
+		
 	private:
-		std::vector<int>	_span;
 		unsigned int		_N;
+		std::vector<int>	_span;
 		Span();
 
 	public:
@@ -44,27 +48,29 @@ class	Span {
 				SpanException() throw() {};
 				virtual ~SpanException() throw() {};
 				virtual const char* what() const throw()
-				{	"Cannot assign new value !"; }
+				{	return ("Cannot assign new value !"); }
 		};
 		class	SpanExceptionEmpty : public SpanException {
 			public:
 				SpanExceptionEmpty() throw() {};
 				virtual ~SpanExceptionEmpty() throw() {};
 				virtual const char* what() const throw()
-				{	"Empty vector !"; }
+				{	return ("Empty vector !"); }
 		};
 		class	SpanExceptionOne : public SpanException {
 			public:
 				SpanExceptionOne() throw() {};
 				virtual ~SpanExceptionOne() throw() {};
 				virtual const char* what() const throw()
-				{	"Vector contain only one value !"; }
+				{	return ("Vector contain only one value !"); }
 		};
 		class	SpanExceptionNoSpan : public SpanException {
 			public:
 				SpanExceptionNoSpan() throw() {};
 				virtual ~SpanExceptionNoSpan() throw() {};
 				virtual const char* what() const throw()
-				{	"No distance between values !"; }
+				{	return ("No distance between values !"); }
 		};
 };
+
+std::ostream&	operator<<(std::ostream& flux, Span const& span);
