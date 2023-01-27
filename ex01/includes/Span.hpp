@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Span.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chaidel <chaidel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:14:21 by chaidel           #+#    #+#             */
-/*   Updated: 2023/01/27 19:14:59 by chaidel          ###   ########.fr       */
+/*   Updated: 2023/01/27 22:33:07 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,35 @@ class	Span {
 	private:
 		std::vector<int>	_span;
 		unsigned int		_N;
-		static
 		Span();
 
 	public:
-		class SpanException : public std::exception {
+		class	SpanException : public std::exception {
 			public:
 				SpanException() throw() {};
 				virtual ~SpanException() throw() {};
-				virtual const char* what() throw() const 
-				{	"Cannot assign new value !" };
+				virtual const char* what() const throw()
+				{	"Cannot assign new value !"; }
+		};
+		class	SpanExceptionEmpty : public SpanException {
+			public:
+				SpanExceptionEmpty() throw() {};
+				virtual ~SpanExceptionEmpty() throw() {};
+				virtual const char* what() const throw()
+				{	"Empty vector !"; }
+		};
+		class	SpanExceptionOne : public SpanException {
+			public:
+				SpanExceptionOne() throw() {};
+				virtual ~SpanExceptionOne() throw() {};
+				virtual const char* what() const throw()
+				{	"Vector contain only one value !"; }
+		};
+		class	SpanExceptionNoSpan : public SpanException {
+			public:
+				SpanExceptionNoSpan() throw() {};
+				virtual ~SpanExceptionNoSpan() throw() {};
+				virtual const char* what() const throw()
+				{	"No distance between values !"; }
 		};
 };
