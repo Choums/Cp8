@@ -6,14 +6,14 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:14:19 by chaidel           #+#    #+#             */
-/*   Updated: 2023/01/27 23:40:33 by root             ###   ########.fr       */
+/*   Updated: 2023/01/28 11:22:38 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/Span.hpp"
 
 		/*	Constructors/Destrtructor */
-Span::Span(unsigned int N) : _N(N)
+Span::Span(unsigned int const& N) : _N(N)
 {}
 
 Span::Span(Span const& cpy) : _N(cpy._N), _span(cpy._span)
@@ -30,11 +30,21 @@ void	Span::addNumber(int num)
 	else  this->_span.push_back(num);
 }
 
+void	Span::addNumber(std::vector<int>::const_iterator it, std::vector<int>::const_iterator ite)
+{
+	if (std::distance(it, ite) + this->_span.size() > this->_N)
+		throw SpanException();
+	else
+		while (it != ite)
+			this->_span.push_back(*it++);
+}
+
 /*
-	@exception ->	S’il n’y a aucun nombre stocké
-	@exception ->	juste un
-	@exception ->	aucune distance ne peut être trouvée.
-	@return la plus petite distance entre les nombres stockés
+ *	@brief	trouver la plus petite distance distance entre les nombres stockés
+ *	@exception ->	S’il n’y a aucun nombre stocké
+ *	@exception ->	juste un
+ *	@exception ->	aucune distance ne peut être trouvée.
+ *	@return	la plus petite distance entre les nombres stockés
 */
 int		Span::shortestSpan()
 {
@@ -43,26 +53,39 @@ int		Span::shortestSpan()
 	else if (this->_span.size() == 1) {
 		throw SpanExceptionOne(); return (0); }
 	
-	std::sort(this->_span.begin(), this->_span.end());
-	if (!(this->_span[1] - this->_span[0])) {
+	std::vector<int> tmp(this->_span);
+	
+	std::sort(tmp.begin(), tmp.end());
+	
+	if (!(tmp[1] - tmp[0])) {
 		throw SpanExceptionNoSpan(); return (0); }
-	else return (this->_span[1] - this->_span[0]);
+	else return (tmp[1] - tmp[0]);
 }
 
+/*
+ *	@brief	trouver la plus grande distance distance entre les nombres stockés
+ *	@exception ->	S’il n’y a aucun nombre stocké
+ *	@exception ->	juste un
+ *	@exception ->	aucune distance ne peut être trouvée.
+ *	@return	la plus petite distance entre les nombres stockés
+*/
 int		Span::longestSpan()
 {
 	if (!this->_span.size()) {
 		throw SpanExceptionEmpty(); return (0); }
 	else if (this->_span.size() == 1) {
 		throw SpanExceptionOne(); return (0); }
+	
+	std::vector<int> tmp(this->_span);
 
-	std::sort(this->_span.begin(), this->_span.end());
-	std::cout << "end: " << *(this->_span.end()) << " | beg: " << *(this->_span.begin()) << "=> " << *(this->_span.end()) - *(this->_span.begin()) << std::endl;
+	std::sort(tmp.begin(), tmp.end());
 	
-	if (!(*(this->_span.end()) - *(this->_span.begin()))) {
+	int min = *std::min_element(tmp.begin(), tmp.end());
+	int	max = *std::max_element(tmp.begin(), tmp.end());
+
+	if ((max - min) == 0) {
 		throw SpanExceptionNoSpan(); return (0); }
-	else return (*(this->_span.end()) - *(this->_span.begin()));
-	
+	else return (max - min);
 }
 			/*	Assignment Operator Overload */
 Span&	Span::operator=(Span const& obj)

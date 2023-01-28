@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 18:14:21 by chaidel           #+#    #+#             */
-/*   Updated: 2023/01/27 23:06:06 by root             ###   ########.fr       */
+/*   Updated: 2023/01/28 11:25:03 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@ class	Span;
 class	Span {
 	public:
 			/*	Constructors/Destrtructor */
-		Span(unsigned int N);
+		Span(unsigned int const& N);
 		Span(Span const& cpy);
 		virtual ~Span();
 
 			/*	Methods */
 		void	addNumber(int num);
+		void	addNumber(std::vector<int>::const_iterator it, std::vector<int>::const_iterator ite);
 		int 	shortestSpan();
 		int		longestSpan();
 
